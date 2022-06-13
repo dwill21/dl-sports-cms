@@ -22,6 +22,7 @@ services:
       - ./.env:/opt/app/.env
     ports:
       - "1337:1337"
+    entrypoint: npm run develop
 
   mariadb:
     image: mariadb:10.8
@@ -34,3 +35,10 @@ services:
       - ./data:/var/lib/mysql
     ports:
       - "3306:3306"
+
+  meilisearch:
+    image: getmeili/meilisearch:v0.27.2
+    ports:
+      - "7700:7700"
+    volumes:
+      - ./data.ms:/opt/app/data.ms
