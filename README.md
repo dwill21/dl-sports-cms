@@ -1,5 +1,11 @@
 # 🚀 Getting started with Strapi
 
+## Docker Compose
+
+Run `docker-compose up` in order to spin up a Strapi instance with a backing MariaDB database.
+
+## Strapi CLI
+
 Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/developer-docs/latest/developer-resources/cli/CLI.html) (CLI) which lets you scaffold and manage your project in seconds.
 
 ### `develop`

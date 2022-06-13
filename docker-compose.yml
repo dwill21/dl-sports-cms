@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  strapi:
+    container_name: strapi
+    build: .
+    image: strapi-v4:slim
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=mariadb
+      - DATABASE_NAME=strapi
+      - DATABASE_USERNAME=strapi
+      - DATABASE_PASSWORD=admin
+    volumes:
+      - ./config:/opt/app/config
+      - ./public:/opt/app/public
+      - ./src:/opt/app/src
+      - ./package.json:/opt/app/package.json
+      - ./package-lock.json:/opt/app/package-lock.json
+      - ./.env:/opt/app/.env
+    ports:
+      - "1337:1337"
+
+  mariadb:
+    image: mariadb:10.8
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_USER=strapi
+      - MYSQL_DATABASE=strapi
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
