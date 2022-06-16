@@ -6,4 +6,5 @@
 build/
 node_modules/
 data/
+data.ms
 docker-compose.yml
