@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_shared_contact_methods",
+  "info": {
+    "displayName": "ContactMethod",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "info": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
