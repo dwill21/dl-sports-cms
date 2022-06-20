@@ -1,5 +1,7 @@
 'use strict';
 
+const resourceUid = 'api::article.article';
+
 module.exports = {
   /**
    * An asynchronous register function that runs before
@@ -17,8 +19,8 @@ module.exports = {
           article: {
             async resolve(parent, args, context) {
               const { id } = args;
-              const result = await strapi.service('api::article.article').findOne(id);
-              return toEntityResponse(result, { args: {}, resourceUID: 'api::article.article' });
+              const result = await strapi.service(resourceUid).findOne(id);
+              return toEntityResponse(result, { args: {}, resourceUID: resourceUid });
             },
           },
         },
