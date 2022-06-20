@@ -4,7 +4,7 @@ services:
   strapi:
     container_name: strapi
     build: .
-    image: strapi-v4:slim
+    image: dl-sports-cms:latest
     restart: unless-stopped
     env_file: .env
     environment:

@@ -1,5 +1,7 @@
 'use strict';
 
+const resourceUid = 'api::article.article';
+
 module.exports = {
   /**
    * An asynchronous register function that runs before
@@ -7,7 +9,24 @@ module.exports = {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) {},
+  register({ strapi }) {
+    const extensionService = strapi.plugin('graphql').service('extension');
+    const { toEntityResponse } = strapi.plugin('graphql').service('format').returnTypes;
+
+    extensionService.use({
+      resolvers: {
+        Query: {
+          article: {
+            async resolve(parent, args, context) {
+              const { id } = args;
+              const result = await strapi.service(resourceUid).findOne(id);
+              return toEntityResponse(result, { args: {}, resourceUID: resourceUid });
+            },
+          },
+        },
+      },
+    });
+  },
 
   /**
    * An asynchronous bootstrap function that runs before

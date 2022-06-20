@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "contacts",
+  "info": {
+    "singularName": "contact",
+    "pluralName": "contacts",
+    "displayName": "Contact",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "contactMethod": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.contact-method"
+    }
+  }
+}
