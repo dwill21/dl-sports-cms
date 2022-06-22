@@ -1,6 +1,6 @@
 'use strict';
 
-const resourceUid = 'api::article.article';
+const articleUid = 'api::article.article';
 
 module.exports = {
   /**
@@ -10,21 +10,36 @@ module.exports = {
    * This gives you an opportunity to extend code.
    */
   register({ strapi }) {
-    const extensionService = strapi.plugin('graphql').service('extension');
     const { toEntityResponse } = strapi.plugin('graphql').service('format').returnTypes;
+    const extensionService = strapi.plugin('graphql').service('extension');
+    extensionService.shadowCRUD(articleUid).disableAction('findOne');
 
     extensionService.use({
+      typeDefs: `
+        type Query {
+          article(slug: String!): ArticleEntityResponse
+        }
+      `,
       resolvers: {
         Query: {
           article: {
             async resolve(parent, args, context) {
-              const { id } = args;
-              const result = await strapi.service(resourceUid).findOne(id);
-              return toEntityResponse(result, { args: {}, resourceUID: resourceUid });
+              const { slug } = args;
+              const { results } = await strapi.service(articleUid).find({
+                filters: { slug }
+              });
+              return toEntityResponse(results?.[0], { args: {}, resourceUID: articleUid });
             },
           },
         },
       },
+      resolversConfig: {
+        'Query.article': {
+          auth: {
+            scope: [articleUid + '.findOne']
+          }
+        },
+      }
     });
   },
 
