@@ -25,10 +25,8 @@ module.exports = {
           article: {
             async resolve(parent, args, context) {
               const { slug } = args;
-              const { results } = await strapi.service(articleUid).find({
-                filters: { slug }
-              });
-              return toEntityResponse(results?.[0], { args: {}, resourceUID: articleUid });
+              const article = await strapi.service(articleUid).findOne(slug);
+              return toEntityResponse(article, { args: {}, resourceUID: articleUid });
             },
           },
         },

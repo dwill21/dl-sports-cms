@@ -17,19 +17,24 @@ const getOembed = async (url) => {
   }
 }
 
-module.exports = createCoreService('api::article.article', ({ strapi }) => ({
-  async findOne(...args) {
-    const article = await super.findOne(args);
+const unfurlEmbeddedMedia = async (article) => {
+  if (article && oembedRegex.test(article.body)) {
+    const [ oembedNode, oembedUrl ] = article.body.match(oembedRegex);
+    const oembedData = await getOembed(oembedUrl);
 
-    if (oembedRegex.test(article.body)) {
-      const [ oembedNode, oembedUrl ] = article.body.match(oembedRegex);
-      const oembedData = await getOembed(oembedUrl);
-
-      if (oembedData) {
-        article.body = article.body.replace(oembedNode, oembedData.html);
-      }
+    if (oembedData) {
+      article.body = article.body.replace(oembedNode, oembedData.html);
     }
+  }
 
-    return article;
+  return article;
+}
+
+module.exports = createCoreService('api::article.article', ({ strapi }) => ({
+  async findOne(slug) {
+    const { results } = await super.find({
+      filters: { slug }
+    });
+    return unfurlEmbeddedMedia(results?.[0]);
   }
 }));
