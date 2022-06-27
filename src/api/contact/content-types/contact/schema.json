@@ -15,7 +15,7 @@
     "contactMethod": {
       "type": "component",
       "repeatable": true,
-      "component": "shared.contact-method"
+      "component": "contact.contact-method"
     }
   }
 }
