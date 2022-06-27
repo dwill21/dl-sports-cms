@@ -23,7 +23,7 @@
     "description": {
       "type": "text"
     },
-    "topic": {
+    "topics": {
       "type": "component",
       "repeatable": true,
       "component": "sport.topic",

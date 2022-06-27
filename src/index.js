@@ -1,6 +1,7 @@
 'use strict';
 
 const articleUid = 'api::article.article';
+const sportUid = 'api::sport.sport';
 
 module.exports = {
   /**
@@ -18,6 +19,7 @@ module.exports = {
       typeDefs: `
         type Query {
           article(slug: String!): ArticleEntityResponse
+          sport(slug: String!): SportEntityResponse
         }
       `,
       resolvers: {
@@ -29,12 +31,24 @@ module.exports = {
               return toEntityResponse(article, { args: {}, resourceUID: articleUid });
             },
           },
+          sport: {
+            async resolve(parent, args, context) {
+              const { slug } = args;
+              const sport = await strapi.service(sportUid).findOne(slug);
+              return toEntityResponse(sport, { args: {}, resourceUID: sportUid });
+            }
+          }
         },
       },
       resolversConfig: {
         'Query.article': {
           auth: {
             scope: [articleUid + '.findOne']
+          }
+        },
+        'Query.sport': {
+          auth: {
+            scope: [sportUid + '.findOne']
           }
         },
       }
