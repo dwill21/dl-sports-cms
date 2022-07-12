@@ -47,6 +47,12 @@
       "relation": "manyToOne",
       "target": "api::sport.sport",
       "inversedBy": "articles"
+    },
+    "column": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::column.column",
+      "inversedBy": "articles"
     }
   }
 }
