@@ -12,10 +12,14 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "contactMethod": {
+    "socials": {
       "type": "component",
       "repeatable": true,
       "component": "contact.contact-method"
+    },
+    "body": {
+      "type": "richtext",
+      "required": false
     }
   }
 }
