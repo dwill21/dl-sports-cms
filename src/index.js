@@ -1,5 +1,8 @@
 'use strict';
 
+const articleUid = 'api::article.article';
+const sportUid = 'api::sport.sport';
+
 module.exports = {
   /**
    * An asynchronous register function that runs before
@@ -7,7 +10,50 @@ module.exports = {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) {},
+  register({ strapi }) {
+    const { toEntityResponse } = strapi.plugin('graphql').service('format').returnTypes;
+    const extensionService = strapi.plugin('graphql').service('extension');
+    extensionService.shadowCRUD(articleUid).disableAction('findOne');
+
+    extensionService.use({
+      typeDefs: `
+        type Query {
+          article(slug: String!): ArticleEntityResponse
+          sport(slug: String!): SportEntityResponse
+        }
+      `,
+      resolvers: {
+        Query: {
+          article: {
+            async resolve(parent, args, context) {
+              const { slug } = args;
+              const article = await strapi.service(articleUid).findOne(slug);
+              return toEntityResponse(article, { args: {}, resourceUID: articleUid });
+            },
+          },
+          sport: {
+            async resolve(parent, args, context) {
+              const { slug } = args;
+              const sport = await strapi.service(sportUid).findOne(slug);
+              return toEntityResponse(sport, { args: {}, resourceUID: sportUid });
+            }
+          }
+        },
+      },
+      resolversConfig: {
+        'Query.article': {
+          auth: {
+            scope: [articleUid + '.findOne']
+          }
+        },
+        'Query.sport': {
+          auth: {
+            scope: [sportUid + '.findOne']
+          }
+        },
+      }
+    });
+  },
 
   /**
    * An asynchronous bootstrap function that runs before
