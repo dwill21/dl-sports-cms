@@ -27,14 +27,19 @@
       "type": "component",
       "repeatable": true,
       "component": "sport.topic",
-      "max": 3,
-      "min": 3,
+      "min": 1,
       "required": true
     },
     "articles": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::article.article",
+      "mappedBy": "sport"
+    },
+    "highlights": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::highlight.highlight",
       "mappedBy": "sport"
     }
   }

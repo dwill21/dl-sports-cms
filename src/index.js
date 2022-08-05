@@ -2,6 +2,7 @@
 
 const articleUid = 'api::article.article';
 const sportUid = 'api::sport.sport';
+const highlightUid = 'api::highlight.highlight';
 
 module.exports = {
   /**
@@ -11,7 +12,7 @@ module.exports = {
    * This gives you an opportunity to extend code.
    */
   register({ strapi }) {
-    const { toEntityResponse } = strapi.plugin('graphql').service('format').returnTypes;
+    const { toEntityResponse, toEntityResponseCollection } = strapi.plugin('graphql').service('format').returnTypes;
     const extensionService = strapi.plugin('graphql').service('extension');
     extensionService.shadowCRUD(articleUid).disableAction('findOne');
 
@@ -28,17 +29,30 @@ module.exports = {
             async resolve(parent, args, context) {
               const { slug } = args;
               const article = await strapi.service(articleUid).findOne(slug);
-              return toEntityResponse(article, { args: {}, resourceUID: articleUid });
+              return toEntityResponse(article, { args, resourceUID: articleUid });
             },
           },
           sport: {
             async resolve(parent, args, context) {
               const { slug } = args;
               const sport = await strapi.service(sportUid).findOne(slug);
-              return toEntityResponse(sport, { args: {}, resourceUID: sportUid });
+              return toEntityResponse(sport, { args, resourceUID: sportUid });
+            }
+          },
+          highlights: {
+            async resolve(parents, args, context) {
+              const results = await strapi.service(highlightUid).find(args);
+              return toEntityResponseCollection(results, { args, resourceUID: highlightUid })
             }
           }
         },
+        HighlightRelationResponseCollection: {
+          data: {
+            async resolve(parent, args, context) {
+              return await Promise.all(parent.nodes.map(strapi.service(highlightUid).unfurlEmbeddedMedia));
+            }
+          }
+        }
       },
       resolversConfig: {
         'Query.article': {
