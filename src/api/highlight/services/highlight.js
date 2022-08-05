@@ -31,9 +31,30 @@ const unfurlEmbeddedMedia = async (highlight) => {
 }
 
 module.exports = createCoreService('api::highlight.highlight', ({ strapi }) => ({
-  unfurlEmbeddedMedia,
-  async find(args) {
-    const { results } = await super.find(args);
+  async find(sportId) {
+    const dt = new Date();
+    dt.setDate(dt.getDate() - 7);
+
+    const pastSevenDays = {
+      createdAt: {
+        $gt: dt.toISOString()
+      }
+    };
+
+    const filters = sportId ? {
+      $and: [
+        pastSevenDays,
+        {
+          sport: {
+            id: {
+              $eq: sportId
+            }
+          }
+        }
+      ]
+    } : pastSevenDays;
+
+    const { results } = await super.find({ filters, sort: { createdAt: 'desc' } });
     return await Promise.all(results.map(unfurlEmbeddedMedia));
   }
 }));

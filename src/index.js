@@ -40,17 +40,18 @@ module.exports = {
             }
           },
           highlights: {
-            async resolve(parents, args, context) {
-              const results = await strapi.service(highlightUid).find(args);
-              return toEntityResponseCollection(results, { args, resourceUID: highlightUid })
+            async resolve(parent, args, context) {
+              const results = await strapi.service(highlightUid).find();
+              return toEntityResponseCollection(results, { args, resourceUID: highlightUid });
             }
           }
         },
-        HighlightRelationResponseCollection: {
-          data: {
+        Sport: {
+          highlights: {
             async resolve(parent, args, context) {
-              return await Promise.all(parent.nodes.map(strapi.service(highlightUid).unfurlEmbeddedMedia));
-            }
+              const results = await strapi.service(highlightUid).find(parent.id);
+              return toEntityResponseCollection(results, { args, resourceUID: highlightUid });
+            },
           }
         }
       },
