@@ -41,6 +41,9 @@
       "relation": "oneToMany",
       "target": "api::highlight.highlight",
       "mappedBy": "sport"
+    },
+    "powerRankings": {
+      "type": "richtext"
     }
   }
 }
