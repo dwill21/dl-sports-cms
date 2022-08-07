@@ -5,30 +5,7 @@
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
-const { extract } = require("oembed-parser");
-
-const oembedRegex = /\<oembed url\=\"(.*)\"\>\<\/oembed\>/;
-
-const getOembed = async (url) => {
-  try {
-    return await extract(url);
-  } catch (err) {
-    return null;
-  }
-}
-
-const unfurlEmbeddedMedia = async (highlight) => {
-  if (highlight && oembedRegex.test(highlight.content)) {
-    const [ oembedNode, oembedUrl ] = highlight.content.match(oembedRegex);
-    const oembedData = await getOembed(oembedUrl);
-
-    if (oembedData) {
-      highlight.content = highlight.content.replace(oembedNode, oembedData.html);
-    }
-  }
-
-  return highlight;
-}
+const { unfurlEmbeddedMedia } = require('../../../embedded-media');
 
 module.exports = createCoreService('api::highlight.highlight', ({ strapi }) => ({
   async find(sportId) {
@@ -55,6 +32,9 @@ module.exports = createCoreService('api::highlight.highlight', ({ strapi }) => (
     } : pastSevenDays;
 
     const { results } = await super.find({ filters, sort: { createdAt: 'desc' } });
-    return await Promise.all(results.map(unfurlEmbeddedMedia));
+    for (const highlight of results) {
+      highlight.content = await unfurlEmbeddedMedia(highlight.content);
+    }
+    return results;
   }
 }));
