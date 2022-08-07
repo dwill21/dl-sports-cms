@@ -1,6 +1,7 @@
 const axios = require("axios");
+const matchAll = require('string.prototype.matchall');
 
-const oembedRegex = /\<oembed url\=\"(.*)\"\>\<\/oembed\>/;
+const oembedRegex = /\<oembed url\=\"(\S+)\"\>\<\/oembed\>/g;
 
 const getEmbeddedMedia = async (url) => {
   try {
@@ -12,12 +13,13 @@ const getEmbeddedMedia = async (url) => {
 }
 
 const unfurlEmbeddedMedia = async (html) => {
-  if (html && oembedRegex.test(html)) {
-    const [ oembedNode, oembedUrl ] = html.match(oembedRegex);
-    const oembedData = await getEmbeddedMedia(oembedUrl);
-
-    if (oembedData) {
-      html = html.replace(oembedNode, oembedData.html);
+  if (html) {
+    const matches = matchAll(html, oembedRegex);
+    for (const [oembedNode, oembedUrl] of matches) {
+      const oembedData = await getEmbeddedMedia(oembedUrl);
+      if (oembedData) {
+        html = html.replace(oembedNode, oembedData.html);
+      }
     }
   }
 
