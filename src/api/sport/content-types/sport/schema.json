@@ -44,6 +44,11 @@
     },
     "powerRankings": {
       "type": "richtext"
+    },
+    "featuredArticle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::article.article"
     }
   }
 }
