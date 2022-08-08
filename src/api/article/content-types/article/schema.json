@@ -41,6 +41,14 @@
     "body": {
       "type": "richtext"
     },
+    "mediaTitles": {
+      "type": "string",
+      "private": true
+    },
+    "mediaDescriptions": {
+      "type": "string",
+      "private": true
+    },
     "sport": {
       "type": "relation",
       "relation": "manyToOne",

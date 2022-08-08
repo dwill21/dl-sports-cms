@@ -15,8 +15,8 @@ module.exports = createCoreService('api::article.article', ({ strapi }) => ({
 
     const article = results?.[0];
     if (article) {
-      article.body = await unfurlEmbeddedMedia(article.body);
+      article.body = (await unfurlEmbeddedMedia(article.body)).text;
     }
-    return unfurlEmbeddedMedia(article);
+    return article;
   }
 }));

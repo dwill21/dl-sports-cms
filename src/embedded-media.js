@@ -13,17 +13,28 @@ const getEmbeddedMedia = async (url) => {
 }
 
 const unfurlEmbeddedMedia = async (html) => {
+  const titles = [];
+  const descriptions = [];
+
   if (html) {
     const matches = matchAll(html, oembedRegex);
+
     for (const [oembedNode, oembedUrl] of matches) {
       const oembedData = await getEmbeddedMedia(oembedUrl);
+
       if (oembedData) {
         html = html.replace(oembedNode, oembedData.html);
+        titles.push(oembedData.title);
+        descriptions.push(oembedData.description);
       }
     }
   }
 
-  return html;
+  return {
+    text: html,
+    mediaTitles: titles.join("\n"),
+    mediaDescriptions: descriptions.join("\n")
+  };
 }
 
 module.exports = {

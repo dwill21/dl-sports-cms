@@ -33,7 +33,7 @@ module.exports = createCoreService('api::highlight.highlight', ({ strapi }) => (
 
     const { results } = await super.find({ filters, sort: { createdAt: 'desc' } });
     for (const highlight of results) {
-      highlight.content = await unfurlEmbeddedMedia(highlight.content);
+      highlight.content = (await unfurlEmbeddedMedia(highlight.content)).text;
     }
     return results;
   }
