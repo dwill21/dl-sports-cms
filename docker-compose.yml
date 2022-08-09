@@ -42,3 +42,12 @@ services:
       - "7700:7700"
     volumes:
       - ./data.ms:/opt/app/data.ms
+
+  iframely:
+    container_name: iframely
+    build: ../iframely
+    image: iframely:latest
+    ports:
+      - "8061:8061"
+    volumes:
+      - ../iframely/config.local.js:/iframely/config.local.js
