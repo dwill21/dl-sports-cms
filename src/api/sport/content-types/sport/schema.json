@@ -27,8 +27,7 @@
       "type": "component",
       "repeatable": true,
       "component": "sport.topic",
-      "max": 3,
-      "min": 3,
+      "min": 1,
       "required": true
     },
     "articles": {
@@ -36,6 +35,20 @@
       "relation": "oneToMany",
       "target": "api::article.article",
       "mappedBy": "sport"
+    },
+    "highlights": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::highlight.highlight",
+      "mappedBy": "sport"
+    },
+    "powerRankings": {
+      "type": "richtext"
+    },
+    "featuredArticle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::article.article"
     }
   }
 }

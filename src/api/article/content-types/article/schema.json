@@ -16,8 +16,7 @@
       "type": "string"
     },
     "description": {
-      "type": "string",
-      "maxLength": 80
+      "type": "text"
     },
     "slug": {
       "type": "uid",
@@ -42,6 +41,14 @@
     "body": {
       "type": "richtext"
     },
+    "mediaTitles": {
+      "type": "string",
+      "private": true
+    },
+    "mediaDescriptions": {
+      "type": "string",
+      "private": true
+    },
     "sport": {
       "type": "relation",
       "relation": "manyToOne",
@@ -53,6 +60,10 @@
       "relation": "manyToOne",
       "target": "api::column.column",
       "inversedBy": "articles"
+    },
+    "powerRanking": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
