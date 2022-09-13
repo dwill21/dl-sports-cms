@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'app',
+      name: 'dl-sports-cms',
       script: 'npm',
       args: 'start',
     },
