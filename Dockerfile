@@ -7,6 +7,7 @@ RUN npm install
 
 COPY ./config ./config
 COPY ./src ./src
+COPY ./public ./public
 COPY ./ecosystem.config.js ./
 COPY ./favicon.ico ./
 RUN NODE_ENV=production npm run build
