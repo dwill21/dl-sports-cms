@@ -13,10 +13,10 @@ module.exports = ({ env }) => ({
 });
 
 function getProviderOptions(env) {
-  const awsAccessOptions = env('NODE_ENV') === "production" ? {} : {
+  const awsAccessOptions = env('NODE_ENV') === "development" ? {
     accessKeyId: env('AWS_ACCESS_KEY_ID'),
     secretAccessKey: env('AWS_ACCESS_SECRET'),
-  };
+  } : {};
 
   return {
     ...awsAccessOptions,
