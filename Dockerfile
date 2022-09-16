@@ -1,13 +1,17 @@
 FROM node:16-slim
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
 
+RUN npm install pm2 -g
 WORKDIR /opt/app/
 COPY ./package.json ./
 RUN npm install
 
-COPY ./ .
-RUN npm run build
-EXPOSE 1337
+COPY ./config ./config
+COPY ./src ./src
+COPY ./public ./public
+COPY ./ecosystem.config.js ./
+COPY ./favicon.ico ./
+RUN NODE_ENV=production npm run build
 
-CMD ["npm", "start"]
+EXPOSE 80
+EXPOSE 443
+CMD ["pm2-runtime", "ecosystem.config.js"]
