@@ -9,10 +9,10 @@ const getEmbeddedMedia = async (url) => {
   try {
     strapi.log.info(`Calling Iframely: ${iframelyUrl}`);
     const response = await axios.get(iframelyUrl);
-    strapi.log.info(`Iframely response: ${response}`);
+    strapi.log.info(`Iframely response: ${JSON.stringify(response)}`);
     return response.data;
   } catch (err) {
-    strapi.log.error(`Error during Iframely call: ${err}`);
+    strapi.log.error(`Error during Iframely call: ${err}}`);
     return null;
   }
 }
