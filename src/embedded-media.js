@@ -4,7 +4,7 @@ const matchAll = require('string.prototype.matchall');
 const oembedRegex = /\<oembed url\=\"(\S+)\"\>\<\/oembed\>/g;
 
 const getEmbeddedMedia = async (url) => {
-  const iframelyUrl = `${process.env.IFRAMELY_URL}/oembed?url=${url}`;
+  const iframelyUrl = `http://${process.env.IFRAMELY_URL}/oembed?url=${url}`;
 
   try {
     strapi.log.info(`Calling Iframely: ${iframelyUrl}`);
