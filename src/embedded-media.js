@@ -5,9 +5,12 @@ const oembedRegex = /\<oembed url\=\"(\S+)\"\>\<\/oembed\>/g;
 
 const getEmbeddedMedia = async (url) => {
   try {
+    strapi.log.info("Calling Iframely for URL: %s", url);
     const response = await axios.get(`${process.env.IFRAMELY_URL}/oembed?url=${url}`);
+    strapi.log.info("Iframely response: %s", response);
     return response.data;
   } catch (err) {
+    strapi.log.error("Error during Iframely call: %s", err);
     return null;
   }
 }
