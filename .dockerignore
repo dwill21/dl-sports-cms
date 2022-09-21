@@ -1,10 +1,28 @@
-.tmp/
-.cache/
-.git/
-.gitignore
+# IDE files
 .idea/
+*.iml
+
+# Data files
+data/
+database/
+data.ms
+.tmp/
+
+# NPM files
 build/
 node_modules/
-data/
-data.ms
+package-lock.json
+
+# Git files
+.git/
+.gitignore
+
+# Config files
+.editorconfig
+.eslint*
+
+# Misc files
+.cache/
+.env*
 docker-compose.yml
+README.md

@@ -4,10 +4,15 @@ const matchAll = require('string.prototype.matchall');
 const oembedRegex = /\<oembed url\=\"(\S+)\"\>\<\/oembed\>/g;
 
 const getEmbeddedMedia = async (url) => {
+  const iframelyUrl = `http://${process.env.IFRAMELY_URL}/oembed?url=${url}`;
+
   try {
-    const response = await axios.get(`${process.env.IFRAMELY_URL}/oembed?url=${url}`);
+    strapi.log.info(`Calling Iframely: ${iframelyUrl}`);
+    const response = await axios.get(iframelyUrl);
+    strapi.log.info(`Iframely response status: ${response.status}`);
     return response.data;
   } catch (err) {
+    strapi.log.error(`Error during Iframely call: ${err}}`);
     return null;
   }
 }

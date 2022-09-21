@@ -42,6 +42,8 @@ services:
       - "7700:7700"
     volumes:
       - ./data.ms:/opt/app/data.ms
+    environment:
+      - MEILISEARCH_MASTER_KEY=masterKey
 
   iframely:
     container_name: iframely
