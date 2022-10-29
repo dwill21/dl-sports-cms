@@ -3,6 +3,7 @@ FROM node:16-slim
 RUN npm install pm2 -g
 WORKDIR /opt/app/
 COPY ./package.json ./
+COPY ./patches ./patches
 RUN npm install
 
 COPY ./config ./config

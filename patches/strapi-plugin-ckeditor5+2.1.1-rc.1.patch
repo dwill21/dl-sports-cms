@@ -1,0 +1,19 @@
+diff --git a/node_modules/strapi-plugin-ckeditor5/admin/src/config/ckeditor.js b/node_modules/strapi-plugin-ckeditor5/admin/src/config/ckeditor.js
+index ca99041..7b9e13d 100644
+--- a/node_modules/strapi-plugin-ckeditor5/admin/src/config/ckeditor.js
++++ b/node_modules/strapi-plugin-ckeditor5/admin/src/config/ckeditor.js
+@@ -1,6 +1,14 @@
+ module.exports = {
+   ////// CONFIGURATION TEMPLATE: uncomment desired lines to override default config.
+   ////// While all lines are commented, config will not change anything.
++  mediaEmbed: {
++    extraProviders: [
++      {
++        name: 'TikTok',
++        url: /^tiktok\.com\/(@\w+)\/video\/(\d+)/,
++      }
++    ]
++  },
+   toolbar: {
+     // items: [
+     //     "heading",
